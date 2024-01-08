@@ -11,6 +11,9 @@ import random
 import psutil
 import functools
 
+from pyinstrument import Profiler
+
+
 json_filename = 'data.json'
 a = {'cpu': 14, 'mem': 70}
 data_list = list()
@@ -119,6 +122,11 @@ def dichotomy_filter():
 
 if __name__ == '__main__':
     read_json()
+    profiler = Profiler()
+    profiler.start()
     generator_filter()
-    dict_sort()
+    # dict_sort()
     dichotomy_filter()
+    profiler.stop()
+    with open('profiling_result.txt', 'w') as output_file:
+        output_file.write(profiler.output_text(unicode=True, color=True))
